@@ -1,0 +1,8 @@
+*.sublime-workspace
+*.sublime-project
+include/
+lib/
+bin/
+*.sqlite3
+.DS_Store
+.Python
