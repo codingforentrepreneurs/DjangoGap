@@ -1,1 +1,36 @@
 {% extends "base.html" %}
+
+<script>
+{% block jquery %}
+$("#submit").click(function(e){
+	e.preventDefault();
+	var username = $("#username").val()
+	var password = $("#password").val()
+	var encodedString = btoa(username + ":" + password)
+	console.log(encodedString)
+	var endPoint = "http://127.0.0.1:8000/api/v1/user/?format=json"
+	$.ajax({
+		type: "GET",
+		url: endPoint,
+		data: {},
+		success: function(data){
+			console.log(data)
+		},
+		beforeSend: function(xhr){
+			xhr.setRequestHeader("Authorization", "Basic " + encodedString)
+		}
+	})
+
+});
+{% endblock %}
+</script>
+
+
+{% block content %}
+
+<form>
+<input type='text' name='username' id='username' />
+<input type='password' name='password' id='password' />
+<input type='submit' value='Login' id='submit' />
+</form>
+{% endblock%}
