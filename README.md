@@ -11,3 +11,5 @@ Setup: N/A
 [Create your API](../../tree/e76e758b4c7b24d8d265dec7d6c9db4779b29cae)
 
 [Ajax Basic Authentication](../../tree/8c0a2d9bc9ac4415ef972e34827ef350908b2c92)
+
+[User Api Key](../../tree/82adc0accf30af2b2bda06ab798a97fdc43626e2)
