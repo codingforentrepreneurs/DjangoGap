@@ -10,17 +10,19 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-
-class UserResource(ModelResource):
+#am1pdGNoZWwzOjEyMw==
+class LoginResource(ModelResource):
 	class Meta:
 		queryset = User.objects.all()
 		fields = ["first_name", "last_name", "username"]
 		allowed_method = ['get']
-		resource_name = 'user'
+		resource_name = 'login'
 		authorization = DjangoAuthorization()
 		authentication = BasicAuthentication()
 
 	def dehydrate(self, bundle):
 		username = bundle.data.get('username')
-		bundle.data['api_key'] = "Hi there %s" %(username)
+		user = User.objects.get(username=username)
+		#instance, created = ApiKey.objects.get_or_create(user=user)
+		bundle.data['api_key'] = ApiKey.objects.get_or_create(user=user)[0].key
 		return bundle

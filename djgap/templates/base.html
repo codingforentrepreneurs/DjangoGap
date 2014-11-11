@@ -15,9 +15,17 @@
 
 	<script>
 	$(document).ready(function(){
+		$userApiKey = ""
 		{% block jquery %}
 		{% endblock %}
-	})
+		$(window).on("navigate", function(event) {
+			var pageId = $.mobile.activePage.attr("id");
+			if (pageId == "two"){
+				console.log(userApiKey);
+				$("#" + pageId + " .ui-content").html("<h1>Hello there</h1>")
+			}
+		});
+	});
 
 	</script>
 </head>

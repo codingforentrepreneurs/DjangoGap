@@ -3,10 +3,10 @@ from django.contrib import admin
 
 from tastypie.api import Api
 
-from .api import UserResource
+from .api import LoginResource
 
 v1_api = Api(api_name='v1')
-v1_api.register(UserResource())
+v1_api.register(LoginResource())
 
 urlpatterns = patterns('',
     # Examples:

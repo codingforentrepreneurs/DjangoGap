@@ -2,26 +2,38 @@
 
 <script>
 {% block jquery %}
+
+
+
 $("#submit").click(function(e){
 	e.preventDefault();
+	var submitBTN = $(this)
+	submitBTN.attr('disabled', 'disabled')
 	var username = $("#username").val()
 	var password = $("#password").val()
 	var encodedString = btoa(username + ":" + password)
-	console.log(encodedString)
-	var endPoint = "http://127.0.0.1:8000/api/v1/user/?format=json"
+	var endPoint = "http://127.0.0.1:8000/api/v1/login/?format=json"
 	$.ajax({
 		type: "GET",
 		url: endPoint,
 		data: {},
 		success: function(data){
-			console.log(data)
+			userApiKey = data.objects[0].api_key
+			$.mobile.navigate("#two")
+		},
+		error: function(data){
+	
 		},
 		beforeSend: function(xhr){
 			xhr.setRequestHeader("Authorization", "Basic " + encodedString)
+		},
+		complete: function(){
+			submitBTN.prop("disabled", false)
 		}
 	})
-
 });
+
+
 {% endblock %}
 </script>
 
