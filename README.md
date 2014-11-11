@@ -13,3 +13,5 @@ Setup: N/A
 [Ajax Basic Authentication](../../tree/8c0a2d9bc9ac4415ef972e34827ef350908b2c92)
 
 [User Api Key](../../tree/82adc0accf30af2b2bda06ab798a97fdc43626e2)
+
+[Posting Model & Create Obj with Api](../../tree/44d3412d0733a4711156bd5d7a4904d64d904aaf)
