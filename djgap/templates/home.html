@@ -1,7 +1,25 @@
 {% extends "base.html" %}
 
+
+
+{% block content %}
+
+<form>
+<input type='text' name='username' id='username' />
+<input type='password' name='password' id='password' />
+<input type='submit' value='Login' id='submit' />
+</form>
+{% endblock%}
+
+
+
+
+
+
+
+
 <script>
-{% block jquery %}
+{# block jquery #}
 
 
 
@@ -65,15 +83,6 @@ $("#newRecod").click(function(e){
 
 
 
-{% endblock %}
+{# endblock #}
 </script>
 
-
-{% block content %}
-
-<form>
-<input type='text' name='username' id='username' />
-<input type='password' name='password' id='password' />
-<input type='submit' value='Login' id='submit' />
-</form>
-{% endblock%}
