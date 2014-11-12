@@ -17,3 +17,5 @@ Setup: N/A
 [Posting Model & Create Obj with Api](../../tree/44d3412d0733a4711156bd5d7a4904d64d904aaf)
 
 [Add Data with Ajax](../../tree/3fa339109ff48c7f04531574a67b0a5693b53c5f)
+
+[List Data with Get and Ajax](../../tree/ef7630cc07cd5d0c8da40c6dff906886539ba691)
