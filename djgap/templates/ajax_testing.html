@@ -53,11 +53,13 @@
 		console.log(newApiString)
 		var endPoint = "http://127.0.0.1:8000/api/v1/posting/"
 		var postingData = $("#postText").val()
-		if (postingData.length >= 1) {
+		var urlLink = $("#urlLink").val()
+		if (postingData.length >= 1 && urlLink.length !=0 ) {
 			$("#postError").fadeOut();
 
 			var data = JSON.stringify({
-				"post": postingData,
+				"title": postingData,
+				"url": urlLink,
 			})
 			$.ajax({
 				type: "POST",
@@ -66,7 +68,7 @@
 				contentType: "application/json",
 				success: function(data){
 					console.log(data);
-					$("#theListPostings").prepend("<li>" + postingData + "</li>")
+					$("#theListPostings").prepend("<li>" + postingData + " " + urlLink + "</li>")
 					$("#postText").val("");
 				},
 				error: function(data){
@@ -84,7 +86,15 @@
 			$("#postError").text("Your post shouldn't be empty")
 		}
 	});
-
+	
+	function parseData(object) {
+		console.log(object)
+		var title = object[0].title;
+		var url = object[0].url
+		var objID = object[0].id
+		var htmlText = "<li class=\"ui-li-static ui-body-inherit\" id='" + objID + "''>" + title + "</li>"
+		return htmlText
+	}
 	function getPostingData(listId){
 		var newApiString = username + ":" + userApiKey
 		var endPoint = "http://127.0.0.1:8000/api/v1/posting/"
@@ -99,8 +109,8 @@
 				console.log(objectArray)
 				$.each(objectArray, function(){
 					var listItemSingle = $(this);
-					console.log(listItemSingle)
-					$(listId).append("<li class=\"ui-li-static ui-body-inherit\">" + listItemSingle[0].post  + "</li>");
+					var htmlTextResult = parseData(listItemSingle)
+					$(listId).append(htmlTextResult);
 				})
 
 			},
@@ -161,6 +171,7 @@
 
 <span id='postError' style='color:red;'> </span><br/>
 <input type='text' id='postText' />
+<input type='text' id='urlLink' />
 <input type='submit' id='newRecord' />
 
 </div>
