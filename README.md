@@ -21,3 +21,5 @@ Setup: N/A
 [List Data with Get and Ajax](../../tree/ef7630cc07cd5d0c8da40c6dff906886539ba691)
 
 [Ajax Testing](../../tree/0fefc4c63262ca97822a6c5f41ee86ebdff36578)
+
+[Postings to Title & URLs](../../tree/71496e82dbac9f3d263de9d546636104f8efd667)
