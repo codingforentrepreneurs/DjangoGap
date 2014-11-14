@@ -40,7 +40,7 @@
 				getPostingData("#theListPostings")
 			},
 			error: function(data){
-		
+				
 			},
 			beforeSend: function(xhr){
 				xhr.setRequestHeader("Authorization", "Basic " + encodedString)
@@ -71,19 +71,28 @@
 				url: endPoint,
 				data: data,
 				contentType: "application/json",
+				dataType: "json",
 				success: function(data){
 					console.log(data);
 					$("#theListPostings").prepend("<li>" + postingData + " " + urlLink + "</li>")
 					$("#postText").val("");
 				},
 				error: function(data){
-					console.log(data);
+					$("#postError").fadeIn()
+					var theError = data.responseJSON.posting
+					// console.log(theError)
+					$.each(theError, function(key, value) {
+						console.log(key);
+						console.log(value);
+						$("#postError").text(value)
+					})
+					
 				},
 				beforeSend: function(xhr){
 					xhr.setRequestHeader("Authorization", "ApiKey " + newApiString)
 				},
 				complete: function(data){
-					console.log(data);
+					console.log("finished!")
 				}
 			})
 		} else {
@@ -96,7 +105,7 @@
 		// <iframe width="560" height="315" src="//www.youtube.com/embed/sjM89gKGHTY" frameborder="0" allowfullscreen></iframe>
 		// <iframe width="560" height="315" src="//www.youtube.com/embed/sjM89gKGHTY?list=PLEsfXFp6DpzT5veidCTZ1mQriBX0Mu2LF" frameborder="0" allowfullscreen></iframe>
 		var embedCode = "<iframe width=\"560\" height=\"315\" src=\"http://www.youtube.com/embed/" + youtubeShareLink + "\" frameborder=\"0\" allowfullscreen></iframe>"
-		return embedCode
+		return ""
 
 	}
 
