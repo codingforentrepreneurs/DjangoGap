@@ -25,3 +25,5 @@ Setup: N/A
 [Postings to Title & URLs](../../tree/71496e82dbac9f3d263de9d546636104f8efd667)
 
 [Video Embeds](../../tree/1c693d17ba11f91658ab4b0ad9347f295608aa0a)
+
+[Tastypie Validation](../../tree/b8ac792a0eb36dc29db8ef5de4c201bdb02298b7)
