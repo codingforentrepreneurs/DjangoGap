@@ -11,7 +11,7 @@ Orginal Code Author: Unknown
 from django.http import HttpResponse
 
 from tastypie.http import HttpMethodNotAllowed
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, csrf_exempt
 from tastypie.exceptions import ImmediateHttpResponse
 
 
