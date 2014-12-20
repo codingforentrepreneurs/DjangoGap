@@ -27,3 +27,5 @@ Setup: N/A
 [Video Embeds](../../tree/1c693d17ba11f91658ab4b0ad9347f295608aa0a)
 
 [Tastypie Validation](../../tree/b8ac792a0eb36dc29db8ef5de4c201bdb02298b7)
+
+[Add CORS to API](../../tree/56fccb1014b39b19c86f96beb241bebeb1abe96e)
