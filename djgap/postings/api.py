@@ -10,6 +10,9 @@ from tastypie.models import ApiKey
 from tastypie.resources import ModelResource
 from tastypie.validation import FormValidation, Validation
 
+from djgap.corsresource import CorsResourceBase
+
+
 User = get_user_model()
 
 
@@ -38,7 +41,7 @@ class PostingValidation(Validation):
 
 
 #am1pdGNoZWwzOjEyMw==
-class PostingResource(ModelResource):
+class PostingResource(CorsResourceBase, ModelResource):
 	class Meta:
 		queryset = Posting.objects.all()
 		fields = ["user", "title", "url", "id"]

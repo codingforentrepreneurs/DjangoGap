@@ -6,12 +6,12 @@ from tastypie.authentication import ApiKeyAuthentication, BasicAuthentication, M
 from tastypie.resources import ModelResource
 
 from django.contrib.auth import get_user_model
-
+from .corsresource import CorsResourceBase
 
 User = get_user_model()
 
 #am1pdGNoZWwzOjEyMw==
-class LoginResource(ModelResource):
+class LoginResource(CorsResourceBase, ModelResource):
 	class Meta:
 		queryset = User.objects.all()
 		fields = ["first_name", "last_name", "username"]
