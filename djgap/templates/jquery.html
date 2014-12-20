@@ -61,6 +61,11 @@ $(document).ready(function(){
 		})
 	});
 
+	function getHtmlPageForPost(title, id, content) {
+		var htmlPage = "<div data-role=\"page\" id=\"page-" + id + "\"><div data-role=\"header\"><h1>" + title + "</h1></div><!-- /header --><div role=\"main\" class=\"ui-content\"><h2>" + title + "</h2>" + content + "</div><!-- /content --><div data-role=\"footer\" data-theme=\"a\"><h4>Page Footer</h4></div><!-- /footer --></div><!-- /page one -->"
+		return htmlPage
+	}
+
 	function getPostingData(listId){
 		var newApiString = username + ":" + userApiKey
 		var endPoint = "http://127.0.0.1:8000/api/v1/posting/"
@@ -75,10 +80,14 @@ $(document).ready(function(){
 			success: function(data){
 				var objectArray = data.objects;
 				console.log(objectArray)
+				var i = 0
 				$.each(objectArray, function(){
 					var listItemSingle = $(this);
-					console.log(listItemSingle)
-					$(listId).append("<li class=\"ui-li-static ui-body-inherit\">" + listItemSingle[0].post  + "</li>");
+					console.log(listItemSingle);
+					i++;
+					var htmlPage = getHtmlPageForPost(listItemSingle[0].title, i, "Hello there")
+					$("body").append(htmlPage);
+					$(listId).append("<li class=\"ui-li-static ui-body-inherit\"><a href=\"#page-" + i + "\">" + listItemSingle[0].title  + "</a></li>");
 				})
 
 			},
