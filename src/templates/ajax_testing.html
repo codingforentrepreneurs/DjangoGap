@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Multi-page template</title>
+
+
+	<style>
+	.sectionHiddenDiv {
+		display: none;
+	}
+	</style>
+	<script src="http://demos.jquerymobile.com/1.4.5/js/jquery.js"></script>
+
+	<script>
+	$(document).ready(function(){
+		$userApiKey = ""
+		$username = ""
+
+	$("#submit").click(function(e){
+		e.preventDefault();
+		var submitBTN = $(this)
+		submitBTN.attr('disabled', 'disabled')
+		username = $("#username").val()
+		var password = $("#password").val()
+		var encodedString = btoa(username + ":" + password)
+		var endPoint = "http://127.0.0.1:8000/api/v1/login/?format=json"
+		$.ajax({
+			type: "GET",
+			url: endPoint,
+			data: {},
+			success: function(data){
+				userApiKey = data.objects[0].api_key
+				$("#userKey").text(userApiKey);
+				$(".content").fadeIn();
+				$("#loginForm").fadeOut();
+				getPostingData("#theListPostings")
+			},
+			error: function(data){
+				
+			},
+			beforeSend: function(xhr){
+				xhr.setRequestHeader("Authorization", "Basic " + encodedString)
+			},
+			complete: function(){
+				submitBTN.prop("disabled", false)
+			}
+		})
+	});
+
+
+
+	$("#newRecord").click(function(e){
+		e.preventDefault();
+		var newApiString = username + ":" + userApiKey
+		var endPoint = "http://127.0.0.1:8000/api/v1/posting/"
+		var postingData = $("#postText").val()
+		var urlLink = $("#urlLink").val()
+		if (postingData.length >= 1 && urlLink.length !=0 ) {
+			$("#postError").fadeOut();
+
+			var data = JSON.stringify({
+				"title": postingData,
+				"url": urlLink,
+			})
+			$.ajax({
+				type: "POST",
+				url: endPoint,
+				data: data,
+				contentType: "application/json",
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					$("#theListPostings").prepend("<li>" + postingData + " " + urlLink + "</li>")
+					$("#postText").val("");
+				},
+				error: function(data){
+					$("#postError").fadeIn()
+					var theError = data.responseJSON.posting
+					// console.log(theError)
+					$.each(theError, function(key, value) {
+						console.log(key);
+						console.log(value);
+						$("#postError").text(value)
+					})
+					
+				},
+				beforeSend: function(xhr){
+					xhr.setRequestHeader("Authorization", "ApiKey " + newApiString)
+				},
+				complete: function(data){
+					console.log("finished!")
+				}
+			})
+		} else {
+			$("#postError").fadeIn();
+			$("#postError").text("Your post shouldn't be empty")
+		}
+	});
+	
+	function convertToYouTube(youtubeShareLink) {
+		// <iframe width="560" height="315" src="//www.youtube.com/embed/sjM89gKGHTY" frameborder="0" allowfullscreen></iframe>
+		// <iframe width="560" height="315" src="//www.youtube.com/embed/sjM89gKGHTY?list=PLEsfXFp6DpzT5veidCTZ1mQriBX0Mu2LF" frameborder="0" allowfullscreen></iframe>
+		var embedCode = "<iframe width=\"560\" height=\"315\" src=\"http://www.youtube.com/embed/" + youtubeShareLink + "\" frameborder=\"0\" allowfullscreen></iframe>"
+		return ""
+
+	}
+
+	function parseData(object) {
+		$(".listItemLink").click(function(e){
+			e.preventDefault();
+			var sectionId = "page-" + $(this).attr('id')
+			$("[data-id='" + sectionId + "']").fadeIn();
+		})
+
+		// console.log(object)
+		var title = object[0].title;
+		var url = object[0].url
+		var objID = object[0].id
+		var htmlLink = "<a href='#' class='listItemLink' id='" + objID + "''>" + title + "</a>"
+		var htmlText = "<li class=\"ui-li-static ui-body-inherit\">" + htmlLink + "</li>"
+		var youTubeData = convertToYouTube("L3OGcJXC6-E")// this will be what "var url" is later
+		var addSection = "<div class='sectionHiddenDiv' data-id='page-" + objID +"'>"+ youTubeData + "</div>" 
+		$("#newPostContent").append(addSection)
+		return htmlText
+	}
+	function getPostingData(listId){
+		var newApiString = username + ":" + userApiKey
+		var endPoint = "http://127.0.0.1:8000/api/v1/posting/"
+		var data = JSON.stringify({})
+		$.ajax({
+			type: "GET",
+			url: endPoint,
+			data: data,
+			contentType: "application/json",
+			success: function(data){
+				var objectArray = data.objects;
+				$.each(objectArray, function(){
+					var listItemSingle = $(this);
+					var htmlTextResult = parseData(listItemSingle)
+					$(listId).append(htmlTextResult);
+				})
+
+			},
+			error: function(data){
+				console.log(data);
+			},
+			beforeSend: function(xhr){
+				xhr.setRequestHeader("Authorization", "ApiKey " + newApiString)
+			},
+			complete: function(data){
+				// console.log(data);
+			}
+		})
+	}
+	$(window).on("navigate", function(event) {
+			var pageId = $.mobile.activePage.attr("id");
+			if (pageId == "two"){
+				$("#" + pageId + " .ui-content").html("<form id='postForm'><input type='text' id='postText' /></form>")
+			} else if(pageId == "listPage") {
+				getPostingData("#theListPostings")
+			}
+	});
+
+
+
+});
+
+</script>
+
+
+</head>
+
+<body>
+
+<form id='loginForm'>
+
+<input type='text' id='username' />
+<input type='password' id='password' />
+<input type='submit' id='submit' />
+</form>
+
+<p>User api key is</p>
+<p id="userKey"> </p>
+
+<div class='content' style='display:none;'>
+<h1>The Content</h1>
+
+<ul id='theListPostings'>
+
+</ul>
+
+</div>
+
+
+<div class='content' id='newPostContent' style='display:none;'>
+<h1>New Post</h1>
+
+<span id='postError' style='color:red;'> </span><br/>
+<input type='text' id='postText' />
+<input type='text' id='urlLink' />
+<input type='submit' id='newRecord' />
+
+</div>
+
+</body>
+</html>
